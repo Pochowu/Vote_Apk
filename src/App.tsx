@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './App.css';
+
+// Import Admin pages
+import AdminListPage from './Pages/Admin/List/List';
+import AdminCreatePage from './Pages/Admin/Create/Create';
+import AdminEditPage from './Pages/Admin/Edit/Edit';
+import AdminShowPage from './Pages/Admin/Show/Show';
+
+// Import Event pages
+import EventListPage from './Pages/Events/List/List';
+import EventShowPage from './Pages/Events/Show/Show';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
+    <Router>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Events</Link>
+            </li>
+            <li>
+              <Link to="/admins">Admins</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <main>
+          <Routes>
+            <Route path="/" element={<EventListPage />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admins" element={<AdminListPage />} />
+            <Route path="/admins/create" element={<AdminCreatePage />} />
+            <Route path="/admins/:id/edit" element={<AdminEditPage />} />
+            <Route path="/admins/:id" element={<AdminShowPage />} />
+
+            {/* Event Routes */}
+            <Route path="/events/:id" element={<EventShowPage />} />
+
+          </Routes>
+        </main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;
